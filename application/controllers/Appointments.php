@@ -45,7 +45,96 @@ class Appointments extends CI_Controller {
         // Common helpers
         $this->load->helper('google_analytics');
     }
+    public function pay(){
+       
+        header("Content-Type:application/json");
+        $shortcode='174379';
+        $passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+        $consumerkey ="mxHfXZgmIrq6aGkm0D4UOUV3ECp4g1OI";
+        $consumersecret ="4KmjMiOe0sIIcnZS";
+        $validationurl="enteryourvalidationurlhere";
+        $confirmationurl="enteryourconfirmationurlhere";
+      
+        /* testing environment, comment the below two lines if on production */
+        $authenticationurl='https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+        $registerurl = 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl';
+        
 
+        /* production un-comment the below two lines if you are in production */
+        //$authenticationurl=’https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials’;
+        //$registerurl = ‘https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl’;
+        $credentials= base64_encode($consumerkey.':'.$consumersecret);
+       
+        // Request headers
+        $headers = array(
+            'Content-Type: application/json; charset=utf-8'
+            );
+        // Request
+        $ch = curl_init($authenticationurl);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        //curl_setopt($ch, CURLOPT_HEADER, TRUE); // Includes the header in the output
+        curl_setopt($ch, CURLOPT_HEADER, FALSE); // excludes the header in the output
+        curl_setopt($ch, CURLOPT_USERPWD, $consumerkey . ":" . $consumersecret); // HTTP Basic Authentication
+        $result = curl_exec($ch);
+       // echo $result;
+        $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $result = json_decode($result);
+        
+        $access_token=$result->access_token;
+        var_dump($access_token);
+        curl_close($ch);
+
+        // // $date = new DateTime(new DateTimeZone('Africa/Nairobi'));
+        // $date = new DateTime(null, new DateTimeZone('Africa/Nairobi'));
+        // var_dump($date);
+        // //$newdate =  $date->setTimeZone(new DateTimeZone('Africa/Nairobi'));
+        // //var_dump($newdate);
+        // $timestamp = $date->getTimestamp();
+        // var_dump($timestamp);
+        $date = time();
+        $timestamp = date("Ymdhms",$date);
+        //echo $newdate;
+        //$timestamp = $newdate->getTimestamp();
+            
+        $password = base64_encode($shortcode.$passkey.$timestamp );
+       
+        // echo $password;
+        $transactiondesc = "Successful";
+        $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        $ch1 = curl_init($url);
+        curl_setopt($ch1, CURLOPT_URL, $url);
+        curl_setopt($ch1, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$access_token)); //setting custom header
+        
+        $curl_post_data = array(
+          //Fill in the request parameters with valid values
+          'BusinessShortCode' => $shortcode,
+          'Password' => $password,
+          'Timestamp' => $timestamp,
+          'TransactionType' => 'CustomerPayBillOnline',
+          'Amount"' => '10',
+          'PartyA' => '254708783230',
+          'PartyB' => $shortcode,
+          'PhoneNumber' => '254708783230 ',
+          'CallBackURL' => 'https://webhook.site/b5397956-e332-4603-aa0b-b7a861b1f1c5',
+          'AccountReference' => 'Sharon',
+          'TransactionDesc' => $transactiondesc
+        );
+        
+        $data_string = json_encode($curl_post_data);
+        
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_POST, true);
+        curl_setopt($ch1, CURLOPT_POSTFIELDS, $data_string);
+        
+        $curl_response = curl_exec($ch1);
+        print_r($curl_response);
+        
+        echo $curl_response;
+        
+       // Lipa na M-Pesa Online Payment API is used to initiate a M-Pesa transaction on behalf of a customer using STK Push. This is the same technique mySafaricom App uses whenever the app is used to make payments.
+        
+        }
     /**
      * Default callback method of the application.
      *
@@ -150,12 +239,14 @@ class Appointments extends CI_Controller {
                 'appointment_data' => $appointment,
                 'provider_data' => $provider,
                 'customer_data' => $customer,
+                'lipa_na_mpesa' => $lipa_na_mpesa,
                 'display_cookie_notice' => $display_cookie_notice,
                 'cookie_notice_content' => $cookie_notice_content,
                 'display_terms_and_conditions' => $display_terms_and_conditions,
                 'terms_and_conditions_content' => $terms_and_conditions_content,
                 'display_privacy_policy' => $display_privacy_policy,
                 'privacy_policy_content' => $privacy_policy_content,
+                
             ];
         }
         catch (Exception $exc)
@@ -306,6 +397,7 @@ class Appointments extends CI_Controller {
         $this->load->model('services_model');
         $this->load->model('settings_model');
         //retrieve the data needed in the view
+        $pay = $this->pay_model->get_row();
         $appointment = $this->appointments_model->get_row($appointment_id);
         $provider = $this->providers_model->get_row($appointment['id_users_provider']);
         $service = $this->services_model->get_row($appointment['id_services']);

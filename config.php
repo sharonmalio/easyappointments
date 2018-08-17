@@ -37,6 +37,10 @@ class Config {
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
+    const MPESA_CONSUMER_KEY= 'mxHfXZgmIrq6aGkm0D4UOUV3ECp4g1OI';
+    const MPESA_CONSUMER_SECRET='4KmjMiOe0sIIcnZS';
+    const MPESA_ENV='sandbox'; 
+
 
     const DB_HOST       = 'localhost';
     const DB_NAME       = 'stoneweb_developer';

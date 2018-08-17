@@ -28,6 +28,35 @@ class Appointments_Model extends CI_Model {
      *
      * @return int Returns the appointments id.
      */
+
+     public function addpayment()
+     {
+        $this->load->controller('appointments');
+        
+        $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer' .$access_token));
+        $array = json_decode($request, true);
+
+        $businessshortCode= mysqli_real_escape_string($con,$array['BusinessShortCode']);
+        $password= mysqli_real_escape_string($con,$array['Password']);
+        $timestamp= mysqli_real_escape_string($con,$array['Timestamp']);
+        $transactiontype= mysqli_real_escape_string($con,$array['TransactionType']);
+        $amount= mysqli_real_escape_string($con,$array['Amount']);
+        $partya= mysqli_real_escape_string($con,$array['PartyA']);
+        $partyb= mysqli_real_escape_string($con,$array['PartyB']);
+        $phonenumber= mysqli_real_escape_string($con,$array['PhoneNumber']);
+        $callbackURL= mysqli_real_escape_string($con,$array['CallBackURL']);
+        $accountreference= mysqli_real_escape_string($con,$array['AccountReference']);
+        $transactiondesc= mysqli_real_escape_string($con,$array['TransactionDesc']);
+
+        $sql="INSERT INTO mpesa_payments( 
+            BusinessShortCode,Password,Timestamp,TransactionType,Amount,PartyA,PartyB,PhoneNumber,CallBackURL,AccountReference,TransactionDesc,)
+            VALUES ( 
+            '$businessshortCode','$password','$timestamp','$transactiontype','$amount','$partya','$partyb','$phonenumber','$callbackURL','$accountreference','$transactiondesc',)";
+     }
     public function add($appointment)
     {
         // Validate the appointment data before doing anything.

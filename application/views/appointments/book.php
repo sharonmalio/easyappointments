@@ -246,6 +246,18 @@
                                     <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
+                            <?php
+                                echo ' 
+                                    <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
+                                        <span class="glyphicon glyphicon-usd"></span> ' .
+                                        lang('pay_deposit') .'
+                                    </a> ';
+                                echo ' 
+                                    <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
+                                        <span class="glyphicon glyphicon-usd"></span> ' .
+                                        lang('pay_full_amount') .'
+                                    </a> ';
+                            ?> <br>
 
                             <?php if ($display_terms_and_conditions): ?>
                             <label>
@@ -278,7 +290,7 @@
                     </div>
 
                     <div class="command-buttons">
-                        <button type="button" id="button-back-3" class="btn button-back btn-default"
+                        <button type="button" id="button-back-3" class="btn button-back btn-primary"
                                 data-step_index="3"><span class="glyphicon glyphicon-backward"></span>
                             <?= lang('back') ?>
                         </button>
