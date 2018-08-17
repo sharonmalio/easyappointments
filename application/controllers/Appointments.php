@@ -112,10 +112,10 @@ class Appointments extends CI_Controller {
           'Password' => $password,
           'Timestamp' => $timestamp,
           'TransactionType' => 'CustomerPayBillOnline',
-          'Amount"' => '10',
-          'PartyA' => '254708783230',
+          'Amount' => '20',
+          'PartyA' => '254701926294',
           'PartyB' => $shortcode,
-          'PhoneNumber' => '254708783230 ',
+          'PhoneNumber' => '254701926294',
           'CallBackURL' => 'https://webhook.site/b5397956-e332-4603-aa0b-b7a861b1f1c5',
           'AccountReference' => 'Sharon',
           'TransactionDesc' => $transactiondesc
