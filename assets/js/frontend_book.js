@@ -191,6 +191,7 @@ window.FrontendBook = window.FrontendBook || {};
     /**
      * This method binds the necessary event handlers for the book appointments page.
      */
+    
     function _bindEventHandlers() {
         /**
          * Event: Selected Provider "Changed"
@@ -303,7 +304,19 @@ window.FrontendBook = window.FrontendBook || {};
                     }
                 }
             }
-
+            if ($(this).attr('data-step_index') === '4') {
+                if (!_validateCustomerForm()) {
+                    return; // Validation failed, do not continue.
+                }
+                else{
+                    FrontendBook.updateConfirmFrame();
+                }
+               
+            }
+            if ($(this).attr('data-step_index') === '5') {
+                
+               
+            }
             // Display the next step tab (uses jquery animation effect).
             var nextTabIndex = parseInt($(this).attr('data-step_index')) + 1;
 
@@ -431,13 +444,46 @@ window.FrontendBook = window.FrontendBook || {};
             }, 300); // There is no draw event unfortunately.
         })
     }
-
+    function _validateCustomerPhoneNumber(){
+        $('#wizard-frame-4 .has-error').removeClass('has-error');
+        $('#wizard-frame-4 label.text-danger').removeClass('text-danger');
+        try {
+            // Validate required fields.
+            var missingRequiredField = false;
+            $('.required').each(function () {
+                if ($(this).val() == '') {
+                    $(this).parents('.form-group').addClass('has-error');
+                    missingRequiredField = true;
+                }
+            });
+            if (missingRequiredField) {
+                throw EALang.fields_are_required;
+            }
+        } catch (exc) {
+            $('#form-message').text(exc);
+            return false;
+        }
+    }
     /**
      * This function validates the customer's data input. The user cannot continue
      * without passing all the validation checks.
      *
      * @return {Boolean} Returns the validation result.
+     * 
      */
+
+
+
+    //  Toggleform when its clicked
+    $("#formButton").click(function(){
+        $("#form1").toggle();
+    });
+
+
+    $("#form2Button").click(function(){
+        $("#form2").toggle();
+    });
+
     function _validateCustomerForm() {
         $('#wizard-frame-3 .has-error').removeClass('has-error');
         $('#wizard-frame-3 label.text-danger').removeClass('text-danger');

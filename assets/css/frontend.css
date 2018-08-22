@@ -44,7 +44,7 @@ body {
 
 #book-appointment-wizard #header {
     padding: 5px;
-    height: 90px;
+    height: 70px;
     background: #00007f;
     border-bottom: 4px solid #00007f;
 }
@@ -56,14 +56,20 @@ body {
     margin: 16px 10px 0 15px;
     float: left;
 }
-
 #book-appointment-wizard #steps {
-    width: 180px;
+    width: 300px;
     display: inline-block;
     float: right;
     margin-top: 17px;
 }
 
+#book-appointment-wizard #form1 {
+    display:none;
+    }
+ 
+#book-appointment-wizard #form2 {
+        display:none;
+        }
 #book-appointment-wizard .wizard-frame {
     padding: 10px 20px;
     height: 560px;
@@ -71,7 +77,7 @@ body {
 
 #book-appointment-wizard .wizard-frame .frame-container {
     height: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 #book-appointment-wizard .frame-container .frame-title {
@@ -83,6 +89,7 @@ body {
 #book-appointment-wizard .frame-container .frame-content {
     margin: auto;
     float: none;
+
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons {
@@ -297,9 +304,13 @@ body {
     }
 
     #book-appointment-wizard .wizard-frame .command-buttons #button-next-2,
-    #book-appointment-wizard .wizard-frame .command-buttons #button-next-3 {
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-3, 
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-4, 
+    #book-appointment-wizard .wizard-frame .command-buttons #button-next-5, 
+     {
         float: right;
     }
+  
 
     #book-appointment-wizard .wizard-frame .command-buttons #button-next-1 {
         width: 100%;

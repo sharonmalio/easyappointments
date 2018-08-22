@@ -246,19 +246,7 @@
                                     <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
-                            <?php
-                                echo ' 
-                                    <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
-                                        <span class="glyphicon glyphicon-usd"></span> ' .
-                                        lang('pay_deposit') .'
-                                    </a> ';
-                                echo ' 
-                                    <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
-                                        <span class="glyphicon glyphicon-usd"></span> ' .
-                                        lang('pay_full_amount') .'
-                                    </a> ';
-                            ?> <br>
-
+                            
                             <?php if ($display_terms_and_conditions): ?>
                             <label>
                                 <input type="checkbox" class="required" id="accept-to-terms-and-conditions">
@@ -324,6 +312,34 @@
                             </div>
                         </div>
                         <?php endif; ?>
+                        <!-- payment button -->
+                        <p><b> Please Pay and enter the mpesa confirmation code on the button below.</b></p>
+                        <button style="float:center;color:#000000; border:none" type="button" id="formButton"><b>Lipa na Mpesa</b></button><br><br><br>
+                        
+                        <form id="form1">
+
+                        <b>Phone Number:</b> <input type="text" name="phoneNumber"><br>
+                        <!-- <b>Last Name: </b><input type="text" name="lastName"> -->
+                        <?php echo ' 
+                       <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
+                       <span class="glyphicon glyphicon-search"></span> ' .
+                       lang('submit') .'
+                   </a> ';?>
+                        </form>
+                        <p><b>Paid? Please enter the Mpesa confirmation Number to confirm the payment.</b></p>
+                        <button style="float:center;color:#000000;border:none" type="button" id="form2Button"><b>Confirm Payment</b></button><br><br><br>
+                        
+                        <form id="form2">
+                        
+                        <b>Mpesa Transaction Number:</b> <input type="text" name="phoneNumber"><br>
+                        <!-- <b>Last Name: </b><input type="text" name="lastName"> -->
+                      <?php echo ' 
+                       <a href="' . site_url('appointments/confirmtransid/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
+                       <span class="glyphicon glyphicon-success"></span> ' .
+                       lang('confirm') .'
+                   </a> ';?>
+                        </form>
+
                     </div>
 
                     <div class="command-buttons">
@@ -333,7 +349,7 @@
                             <?= lang('back') ?>
                         </button>
                         <form id="book-appointment-form" style="display:inline-block" method="post">
-                            <button id="book-appointment-submit" type="button" class="btn btn-success">
+                            <button id="book-appointment-submit" type="button" class="btn btn-primary">
                                 <span class="glyphicon glyphicon-ok"></span>
                                 <?= !$manage_mode ? lang('confirm') : lang('update') ?>
                             </button>

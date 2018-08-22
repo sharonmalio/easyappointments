@@ -51,12 +51,6 @@
                                     ' . lang('add_to_google_calendar') . '
                                 </button>';
                         };
-                    echo '
-                    <a href="' . site_url() . '" class="btn btn-primary btn-large">
-                        <span class="glyphicon glyphicon-star"></span> ' .
-                            lang('rate_us') .'
-                            </a> 
-                        ';
 
                         // Display exceptions (if any).
                         if (isset($exceptions)) {
