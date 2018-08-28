@@ -324,7 +324,16 @@
                          <input type="submit" value="Pay">
                         </form>
                       
-
+						<p><b> Please enter your Mpesa phone number in the button below click pay and check your phone.</b></p>
+                        <button style="float:center;color:#000000; border:none" type="button" id="formButton2"><b>Lipa na Mpesa</b></button><br><br><br>
+                        
+                        <form id="form2" method = "POST" action= "http://easyappointments.localhost/index.php/appointments/pay" name ="form2">
+						<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        <b>Transaction ID:</b> <input type="text" name="transactionid" placeholder="MHS7C5NEPD"required><br>
+                        
+                         <input type="submit" value="Confirm">
+                        </form>
+                      
                     </div>
 
                     <div class="command-buttons">

@@ -479,7 +479,9 @@ window.FrontendBook = window.FrontendBook || {};
         $("#form1").toggle();
     });
 
-
+    $("#formButton2").click(function(){
+        $("#form2").toggle();
+    });
     $("#form2Button").click(function(){
         $("#form2").toggle();
     });

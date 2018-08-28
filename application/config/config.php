@@ -26,8 +26,17 @@ $config['google_sync_feature'] = Config::GOOGLE_SYNC_FEATURE;
 | path to your installation.
 |
 */
-$config['base_url'] = Config::BASE_URL;
-
+//$config['base_url'] = Config::BASE_URL;
+//$config['base_url'] = $_SERVER['HTTP_HOST'];
+//$config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
+$protocol = "http://";
+if (isset($_SERVER['HTTPS']) &&
+    ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+        $protocol = 'https://';
+    }
+    $config['base_url'] = $protocol.$_SERVER['HTTP_HOST'];
 /*
 |--------------------------------------------------------------------------
 | Index File
@@ -284,8 +293,9 @@ $config['cache_busting_token'] = '52FX8';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = Config::BASE_URL;
-
+//$config['encryption_key'] = Config::BASE_URL;
+//$config['encryption_key'] = $_SERVER['HTTP_HOST'];
+$config['encryption_key'] = "http://".$_SERVER['HTTP_HOST'];
 /*
 |--------------------------------------------------------------------------
 | Session Variables

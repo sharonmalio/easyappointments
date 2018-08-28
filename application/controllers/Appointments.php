@@ -70,8 +70,10 @@ class Appointments extends CI_Controller
     }
     public function pay()
     {
+        echo $_SERVER['HTTP_HOST'];
         header("Content-Type:application/json");
         $phone = $_POST['phonenumber'];
+        $transid = $_POST['transactionid'];
        // if(empty($phone)){echo "Please Enter the phone number in this format: 254722000000";}
         $shortcode = '174379';
         $passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
@@ -113,7 +115,7 @@ class Appointments extends CI_Controller
         $timestamp = date("Ymdhms", $date);
         
         $password = base64_encode($shortcode . $passkey . $timestamp);
-        
+        $pubkey = 
         // echo $password;
         $transactiondesc = "Successful";
         $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
@@ -150,7 +152,39 @@ class Appointments extends CI_Controller
         echo $curl_response;
         //$this->load->view('appointments/pay');
         //redirect('apponitments/book-success');
+//         verification of the transaction
+
+        $url = 'https://sandbox.safaricom.co.ke/mpesa/transactionstatus/v1/query';
         
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json','Authorization:Bearer '.$access_token)); //setting custom header
+        
+        
+        $curl_post_data = array(
+            //Fill in the request parameters with valid values
+            'Initiator' => ' Malio',
+            'SecurityCredential' => ' ',
+            'CommandID' => 'TransactionStatusQuery',
+            'TransactionID' => $transid,
+            'PartyA' => '254701926294',
+            'IdentifierType' => '1',
+            'ResultURL' => 'https://ip_address:port/result_url',
+            'QueueTimeOutURL' => 'https://ip_address:port/timeout_url',
+            'Remarks' => 'Success ',
+            'Occasion' => ' Success'
+        );
+        
+        $data_string = json_encode($curl_post_data);
+        
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+        
+        $curl_response = curl_exec($curl);
+        print_r($curl_response);
+        
+        echo $curl_response;
     }
 
     // The parameter after verify/ is the transaction reference to be verified
