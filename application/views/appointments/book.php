@@ -312,33 +312,18 @@
                             </div>
                         </div>
                         <?php endif; ?>
+                        
                         <!-- payment button -->
-                        <p><b> Please Pay and enter the mpesa confirmation code on the button below.</b></p>
+                        <p><b> Please enter your Mpesa phone number in the button below click pay and check your phone.</b></p>
                         <button style="float:center;color:#000000; border:none" type="button" id="formButton"><b>Lipa na Mpesa</b></button><br><br><br>
                         
-                        <form id="form1">
-
-                        <b>Phone Number:</b> <input type="text" name="phoneNumber"><br>
-                        <!-- <b>Last Name: </b><input type="text" name="lastName"> -->
-                        <?php echo ' 
-                       <a href="' . site_url('appointments/pay/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
-                       <span class="glyphicon glyphicon-search"></span> ' .
-                       lang('submit') .'
-                   </a> ';?>
-                        </form>
-                        <p><b>Paid? Please enter the Mpesa confirmation Number to confirm the payment.</b></p>
-                        <button style="float:center;color:#000000;border:none" type="button" id="form2Button"><b>Confirm Payment</b></button><br><br><br>
+                        <form id="form1" method = "POST" action= "http://easyappointments.localhost/index.php/appointments/pay" name ="form1">
+						<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>">
+                        <b>Phone Number:</b> <input type="text" name="phonenumber" placeholder="254722000000"required><br>
                         
-                        <form id="form2">
-                        
-                        <b>Mpesa Transaction Number:</b> <input type="text" name="phoneNumber"><br>
-                        <!-- <b>Last Name: </b><input type="text" name="lastName"> -->
-                      <?php echo ' 
-                       <a href="' . site_url('appointments/confirmtransid/' . $appointment_data['hash']) . '" class="btn btn-primary btn-large">
-                       <span class="glyphicon glyphicon-success"></span> ' .
-                       lang('confirm') .'
-                   </a> ';?>
+                         <input type="submit" value="Pay">
                         </form>
+                      
 
                     </div>
 
